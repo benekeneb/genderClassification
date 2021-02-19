@@ -20,9 +20,15 @@ def draw_testdata(predicted_labels):
     for random in random_array:
         ax = fig.add_subplot(4,5,i)
 
+        label = y_test[random]
+        if label == 0.0:
+            label_string = "Männlich"
+        else:
+            label_string = "Weiblich"
+
         image = X_test[random]
         ax.imshow(image)
-        ax.set_title("Label:" + str(y_test[random]))
+        ax.set_title(label_string)
         ax.axis('off')
 
         i = i+1
