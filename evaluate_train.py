@@ -35,7 +35,7 @@ def draw_testdata(predicted_labels):
     plt.show()
 
 rootdir = 'utkface'
-max_iteration = 1000
+max_iteration = 1500
 
 path, dirs, files = next(os.walk(rootdir))
 image_count = len(files)
@@ -53,7 +53,7 @@ y = np.zeros((image_count+1))
 i = 0
 for subdir, dirs, files in os.walk(rootdir):
     for file in files:
-        # print(file)
+        print(file)
 
         # Load Image to NP array
         if not file.endswith('.jpg'):
