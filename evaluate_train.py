@@ -9,6 +9,9 @@ from sklearn.model_selection import train_test_split
 from tensorflow import keras
 from tensorflow.keras import layers
 
+import cv2
+import cvlib as cv
+
 def draw_testdata(predicted_labels):
     random_array = rd.sample(range(1, X_test.shape[0]), 20)
     print(random_array)
@@ -27,6 +30,9 @@ def draw_testdata(predicted_labels):
             label_string = "Weiblich"
 
         image = X_test[random]
+
+        #image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
         ax.imshow(image)
         ax.set_title(label_string)
         ax.axis('off')
@@ -45,9 +51,9 @@ if max_iteration < image_count:
 
 height = 200
 length = 200
-depth = 3
+depth = 1
 
-X = np.zeros((image_count+1, height, length, depth))
+X = np.zeros((image_count+1, height, length))
 y = np.zeros((image_count+1))
 
 i = 0
@@ -63,6 +69,7 @@ for subdir, dirs, files in os.walk(rootdir):
 
         # Normalize Image
         im_iteration_array = im_iteration_array.astype("float32") / 255
+        im_iteration_array_bw = cv2.cvtColor(im_iteration_array, cv2.COLOR_BGR2GRAY)
 
         # Label 
         filename_array = file.split("_")
@@ -73,12 +80,14 @@ for subdir, dirs, files in os.walk(rootdir):
         # print("")
 
         # Append to Dataset Matrix
-        X[i] = im_iteration_array
+        X[i] = im_iteration_array_bw
         y[i] = gender
 
         i+=1
         if i > max_iteration:
             break
+
+X = X.reshape(image_count+1, 200, 200, 1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True)
 

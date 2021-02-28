@@ -48,8 +48,8 @@ while(True):
             face_crop_normalized = face_crop_normalized.reshape(-1, 200, 200, 3)
             labels_pred = model_j.predict(face_crop_normalized)
 
-            prob_f = labels_pred[0][0]
-            prob_m = labels_pred[0][1]
+            prob_m = labels_pred[0][0]
+            prob_f = labels_pred[0][1]
 
             if prob_f > prob_m:
                 label_string = "Weiblich"

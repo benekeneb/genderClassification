@@ -9,6 +9,9 @@ from sklearn.model_selection import train_test_split
 from tensorflow import keras
 from tensorflow.keras import layers
 
+import cv2
+import cvlib as cv
+
 def draw_testdata(predicted_labels):
     random_array = rd.sample(range(1, X_test.shape[0]), 20)
     print(random_array)
@@ -30,7 +33,7 @@ def draw_testdata(predicted_labels):
 
 
 rootdir = 'utkface'
-max_iteration = 100000
+max_iteration = 10
 
 path, dirs, files = next(os.walk(rootdir))
 image_count = len(files)
@@ -40,9 +43,9 @@ if max_iteration < image_count:
 
 height = 200
 length = 200
-depth = 3
+depth = 1
 
-X = np.zeros((image_count+1, height, length, depth))
+X = np.zeros((image_count+1, height, length))
 y = np.zeros((image_count+1))
 
 i = 0
@@ -58,6 +61,9 @@ for subdir, dirs, files in os.walk(rootdir):
 
         # Normalize Image
         im_iteration_array = im_iteration_array.astype("float32") / 255
+        im_iteration_array_bw = cv2.cvtColor(im_iteration_array, cv2.COLOR_BGR2GRAY)
+
+        print(i)
 
         # Label 
         filename_array = file.split("_")
@@ -68,12 +74,14 @@ for subdir, dirs, files in os.walk(rootdir):
         # print("")
 
         # Append to Dataset Matrix
-        X[i] = im_iteration_array
+        X[i] = im_iteration_array_bw
         y[i] = gender
 
         i+=1
         if i > max_iteration:
             break
+
+X = X.reshape(image_count+1, 200, 200, 1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True)
 
@@ -86,7 +94,7 @@ print(y_test.shape)
 print("TRAINING")
 
 num_classes = 2
-input_shape = (200, 200, 3)
+input_shape = (200, 200, 1)
 
 # draw_testdata(y_test)
 
@@ -103,7 +111,7 @@ model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Conv2D(128, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Flatten())
-model.add(layers.Dense(512, activation='relu'))
+# model.add(layers.Dense(512, activation='relu'))
 model.add(layers.Dense(2, activation='sigmoid'))
 
 model.summary()
