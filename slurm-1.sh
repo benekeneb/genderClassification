@@ -13,4 +13,8 @@ module load python/3.8-cuda-ml
 
 srun python -c "print('THIS WORKS!!!')"
 
-srun python train.py
+srun ls
+
+source "gender_classification/bin/activate"
+
+srun python3 train.py

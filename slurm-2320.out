@@ -1,0 +1,73 @@
+THIS WORKS!!!
+evaluate_train.py
+gender_classification
+loss_history.txt
+mnist.py
+model_color.h5
+model.h5
+model.json
+slurm-1.sh
+slurm-2145.out
+slurm-2300.out
+slurm-2301.out
+slurm-2302.out
+slurm-2305.out
+slurm-2306.out
+slurm-2307.out
+slurm-2308.out
+slurm-2309.out
+slurm-2310.out
+slurm-2311.out
+slurm-2312.out
+slurm-2313.out
+slurm-2314.out
+slurm-2315.out
+slurm-2316.out
+slurm-2317.out
+slurm-2318.out
+slurm-2319.out
+slurm-2320.out
+slurm.sh
+train.py
+webcam.py
+Traceback (most recent call last):
+  File "/opt/spack_home/arch_skylake_avx512/spack_repo/var/spack/environments/python-cuda-ml-20-11/.spack-env/view/lib/python3.8/site-packages/numpy/core/__init__.py", line 24, in <module>
+    from . import multiarray
+  File "/opt/spack_home/arch_skylake_avx512/spack_repo/var/spack/environments/python-cuda-ml-20-11/.spack-env/view/lib/python3.8/site-packages/numpy/core/multiarray.py", line 14, in <module>
+    from . import overrides
+  File "/opt/spack_home/arch_skylake_avx512/spack_repo/var/spack/environments/python-cuda-ml-20-11/.spack-env/view/lib/python3.8/site-packages/numpy/core/overrides.py", line 7, in <module>
+    from numpy.core._multiarray_umath import (
+ModuleNotFoundError: No module named 'numpy.core._multiarray_umath'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "train.py", line 2, in <module>
+    import numpy as np
+srun: error: gpu1: task 0: Exited with exit code 1
+  File "/opt/spack_home/arch_skylake_avx512/spack_repo/var/spack/environments/python-cuda-ml-20-11/.spack-env/view/lib/python3.8/site-packages/numpy/__init__.py", line 142, in <module>
+    from . import core
+  File "/opt/spack_home/arch_skylake_avx512/spack_repo/var/spack/environments/python-cuda-ml-20-11/.spack-env/view/lib/python3.8/site-packages/numpy/core/__init__.py", line 50, in <module>
+    raise ImportError(msg)
+ImportError: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python3.7 from "/home/ga53kol/genderClassification/gender_classification/bin/python3"
+  * The NumPy version is: "1.18.5"
+
+and make sure that they are the versions you expect.
+Please carefully study the documentation linked above for further help.
+
+Original error was: No module named 'numpy.core._multiarray_umath'
+
