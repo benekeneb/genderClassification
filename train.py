@@ -117,7 +117,7 @@ model.add(layers.Dense(2, activation='sigmoid'))
 model.summary()
 
 batch_size = 64
-epochs = 200
+epochs = 25
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
@@ -135,6 +135,15 @@ with open("model.json", "w") as json_file:
 model.save_weights("model.h5")
 print("Saved model to disk")
 
-loss_history = history_callback.history["loss"]
-numpy_loss_history = np.array(loss_history)
-np.savetxt("loss_history.txt", numpy_loss_history, delimiter=",")
+# convert the history.history dict to a pandas DataFrame:     
+hist_df = pd.DataFrame(history_callback.history) 
+
+# save to json:  
+hist_json_file = 'history.json' 
+with open(hist_json_file, mode='w') as f:
+    hist_df.to_json(f)
+
+# or save to csv: 
+hist_csv_file = 'history.csv'
+with open(hist_csv_file, mode='w') as f:
+    hist_df.to_csv(f)

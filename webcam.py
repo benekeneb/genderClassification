@@ -42,24 +42,27 @@ while(True):
 
 
         try:
-            face_crop_res = cv2.resize(face_crop, dsize=(200, 200), interpolation=cv2.INTER_CUBIC)
+            face_cropped = cv2.resize(face_crop, dsize=(200, 200), interpolation=cv2.INTER_CUBIC)
+            face_bw = cv2.cvtColor(face_cropped, cv2.COLOR_BGR2GRAY)
 
-            face_crop_normalized = face_crop_res.astype("float32") / 255
-            face_crop_normalized = face_crop_normalized.reshape(-1, 200, 200, 3)
-            labels_pred = model_j.predict(face_crop_normalized)
+            face_reshaped = face_bw.reshape(-1, 200, 200, 1)
+            face_normalized_res = face_reshaped.astype("float32") / 255
+            labels_pred = model_j.predict(face_normalized_res)
 
             prob_m = labels_pred[0][0]
             prob_f = labels_pred[0][1]
 
             if prob_f > prob_m:
-                label_string = "Weiblich"
+                label_string = "Female, " + str(round(prob_f * 100, 2)) + "%"
             else:  
-                label_string = "Männlich"
+                label_string = "Male, " + str(round(prob_m * 100, 2)) + "%"
 
             image = cv2.putText(img, label_string, (sqare_startX,startY), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA) 
 
             print("MALE: " + str(prob_m))
             print("FEMALE: " + str(prob_f))
+
+            # img = face_bw
         except cv2.error as e:
             print('Invalid frame!')
 
