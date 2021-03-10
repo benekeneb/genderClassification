@@ -4,6 +4,9 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import random as rd
 
+import json
+import pandas as pd
+
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
@@ -34,7 +37,7 @@ def draw_testdata(predicted_labels):
         i = i+1
     plt.show()
 
-rootdir = 'utkface'
+rootdir = '../utkface'
 max_iteration = 1500
 
 path, dirs, files = next(os.walk(rootdir))
@@ -93,5 +96,15 @@ model_j.load_weights('model.h5')
 labels_pred = model_j.predict(X_test)
 
 draw_testdata(labels_pred)
+
+# history = json.load(open("history.json", 'r'))
+# plt.plot(history['accuracy'])
+# plt.plot(history['loss'])
+# plt.title('model accuracy')
+# plt.ylabel('accuracy')
+# plt.xlabel('epoch')
+# plt.legend(['accuracy', 'loss'], loc='upper left')
+# plt.show()
+
 
 

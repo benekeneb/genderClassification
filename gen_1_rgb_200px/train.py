@@ -3,6 +3,7 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 import random as rd
+import pandas as pd
 
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
@@ -29,8 +30,8 @@ def draw_testdata(predicted_labels):
     plt.show()
 
 
-rootdir = 'utkface'
-max_iteration = 100000
+rootdir = '../utkface'
+max_iteration = 100
 
 path, dirs, files = next(os.walk(rootdir))
 image_count = len(files)
@@ -109,11 +110,11 @@ model.add(layers.Dense(2, activation='sigmoid'))
 model.summary()
 
 batch_size = 64
-epochs = 200
+epochs = 10
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
-history_callback = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1)
+history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1)
 
 score = model.evaluate(X_test, y_test, verbose=0)
 print("Test loss:", score[0])
@@ -127,6 +128,11 @@ with open("model.json", "w") as json_file:
 model.save_weights("model.h5")
 print("Saved model to disk")
 
-loss_history = history_callback.history["loss"]
-numpy_loss_history = np.array(loss_history)
-np.savetxt("loss_history.txt", numpy_loss_history, delimiter=",")
+#Save Plot
+plt.plot(history.history['loss'], label='Training Loss')
+plt.plot(history.history['accuracy'], label='Training Accuracy')
+plt.title('Perfomance')
+plt.ylabel('MSE value')
+plt.xlabel('No. epoch')
+plt.legend(loc="upper left")
+plt.savefig('performance_plot.png')
