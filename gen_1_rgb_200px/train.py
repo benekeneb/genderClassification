@@ -31,7 +31,7 @@ def draw_testdata(predicted_labels):
 
 
 rootdir = '../utkface'
-max_iteration = 100
+max_iteration = 100000
 
 path, dirs, files = next(os.walk(rootdir))
 image_count = len(files)
@@ -110,7 +110,7 @@ model.add(layers.Dense(2, activation='sigmoid'))
 model.summary()
 
 batch_size = 64
-epochs = 10
+epochs = 150
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
