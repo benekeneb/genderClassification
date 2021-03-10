@@ -1,9 +1,0 @@
-THIS WORKS!!!
-slurmstepd: error: execve(): source gender_classification/bin/activate: No such file or directory
-srun: error: gpu1: task 0: Exited with exit code 2
-2021-02-28 20:19:21.800027: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.2
-Traceback (most recent call last):
-  File "train.py", line 12, in <module>
-    import cv2
-ModuleNotFoundError: No module named 'cv2'
-srun: error: gpu1: task 0: Exited with exit code 1

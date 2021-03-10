@@ -1,5 +1,0 @@
-THIS WORKS!!!
-Traceback (most recent call last):
-  File "<string>", line 1, in <module>
-NameError: name 'train' is not defined
-srun: error: gpu1: task 0: Exited with exit code 1
