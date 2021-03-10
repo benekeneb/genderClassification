@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --mem=40G
+#SBATCH --mem=60G
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --partition=gpucloud
