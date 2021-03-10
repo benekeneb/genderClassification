@@ -15,6 +15,6 @@ srun python -c "print('THIS WORKS!!!')"
 
 srun ls
 
-source "../gender_classification/bin/activate"
+srun source "/home/ga53kol/genderClassification/gender_classification/bin/activate"
 
 srun python3 train.py
