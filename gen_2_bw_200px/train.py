@@ -32,8 +32,8 @@ def draw_testdata(predicted_labels):
     plt.show()
 
 
-rootdir = 'utkface'
-max_iteration = 100000
+rootdir = '../utkface'
+max_iteration = 150
 
 path, dirs, files = next(os.walk(rootdir))
 image_count = len(files)
@@ -111,17 +111,17 @@ model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Conv2D(128, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Flatten())
-# model.add(layers.Dense(512, activation='relu'))
+model.add(layers.Dense(512, activation='relu'))
 model.add(layers.Dense(2, activation='sigmoid'))
 
 model.summary()
 
 batch_size = 64
-epochs = 25
+epochs = 150
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
-history_callback = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1)
+history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1)
 
 score = model.evaluate(X_test, y_test, verbose=0)
 print("Test loss:", score[0])
@@ -135,15 +135,11 @@ with open("model.json", "w") as json_file:
 model.save_weights("model.h5")
 print("Saved model to disk")
 
-# convert the history.history dict to a pandas DataFrame:     
-hist_df = pd.DataFrame(history_callback.history) 
-
-# save to json:  
-hist_json_file = 'history.json' 
-with open(hist_json_file, mode='w') as f:
-    hist_df.to_json(f)
-
-# or save to csv: 
-hist_csv_file = 'history.csv'
-with open(hist_csv_file, mode='w') as f:
-    hist_df.to_csv(f)
+#Save Plot
+plt.plot(history.history['loss'], label='Training Loss')
+plt.plot(history.history['accuracy'], label='Training Accuracy')
+plt.title('Accuracy: ' + str(score[1]))
+plt.ylabel('MSE value')
+plt.xlabel('No. epoch')
+plt.legend(loc="upper left")
+plt.savefig('performance_plot.png')
