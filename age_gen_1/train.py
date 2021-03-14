@@ -10,7 +10,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 rootdir = '../utkface'
-max_iteration = 100
+max_iteration = 100000
 
 path, dirs, files = next(os.walk(rootdir))
 image_count = len(files)
