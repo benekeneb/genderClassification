@@ -43,13 +43,13 @@ while(True):
 
 
         try:
-            face_cropped = cv2.resize(face_crop, dsize=(200, 200), interpolation=cv2.INTER_CUBIC)
+            face_cropped = cv2.resize(face_crop, dsize=(100, 100), interpolation=cv2.INTER_CUBIC)
 
             PILImage = Image.fromarray(face_cropped)
             PILgrey  = PILImage.convert('L')
             face_bw= np.array(PILgrey)
 
-            face_reshaped = face_bw.reshape(-1, 200, 200, 1)
+            face_reshaped = face_bw.reshape(-1, 100, 100, 1)
             face_normalized_res = face_reshaped.astype("float32") / 255
             labels_pred = model_j.predict(face_normalized_res)
 
