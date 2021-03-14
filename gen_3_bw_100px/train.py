@@ -33,7 +33,7 @@ def draw_testdata(predicted_labels):
 
 
 rootdir = '../utkface'
-max_iteration = 100000
+max_iteration = 10
 
 path, dirs, files = next(os.walk(rootdir))
 image_count = len(files)
@@ -41,8 +41,8 @@ image_count = len(files)
 if max_iteration < image_count:
     image_count = max_iteration
 
-height = 200
-length = 200
+height = 100
+length = 100
 depth = 1
 
 X = np.zeros((image_count+1, height, length))
@@ -58,10 +58,11 @@ for subdir, dirs, files in os.walk(rootdir):
             continue
         im_iteration = Image.open(subdir + "/" + file).convert('L') #convert to grayscale
         im_iteration_array = tf.keras.preprocessing.image.img_to_array(im_iteration)
+        im_iteration_array = tf.keras.preprocessing.image.smart_resize(im_iteration_array, (100, 100), interpolation='bilinear' ) #Resize Image
 
         # Normalize Image
         im_iteration_array = im_iteration_array.astype("float32") / 255
-        im_iteration_array = im_iteration_array.reshape(200, 200)
+        im_iteration_array = im_iteration_array.reshape(100, 100)
 
         print(i)
 
@@ -81,7 +82,7 @@ for subdir, dirs, files in os.walk(rootdir):
         if i > max_iteration:
             break
 
-X = X.reshape(image_count+1, 200, 200, 1)
+X = X.reshape(image_count+1, 100, 100, 1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True)
 
@@ -94,7 +95,7 @@ print(y_test.shape)
 print("TRAINING")
 
 num_classes = 2
-input_shape = (200, 200, 1)
+input_shape = (100, 100, 1)
 
 # draw_testdata(y_test)
 
