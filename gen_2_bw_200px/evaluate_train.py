@@ -40,7 +40,7 @@ def draw_testdata(predicted_labels):
         i = i+1
     plt.show()
 
-rootdir = 'utkface'
+rootdir = '../utkface'
 max_iteration = 1500
 
 path, dirs, files = next(os.walk(rootdir))
@@ -64,12 +64,12 @@ for subdir, dirs, files in os.walk(rootdir):
         # Load Image to NP array
         if not file.endswith('.jpg'):
             continue
-        im_iteration = Image.open(subdir + "/" + file)
+        im_iteration = Image.open(subdir + "/" + file).convert('L') #convert to grayscale
         im_iteration_array = tf.keras.preprocessing.image.img_to_array(im_iteration)
 
         # Normalize Image
         im_iteration_array = im_iteration_array.astype("float32") / 255
-        im_iteration_array_bw = cv2.cvtColor(im_iteration_array, cv2.COLOR_BGR2GRAY)
+        im_iteration_array = im_iteration_array.reshape(200, 200)
 
         # Label 
         filename_array = file.split("_")
@@ -80,7 +80,7 @@ for subdir, dirs, files in os.walk(rootdir):
         # print("")
 
         # Append to Dataset Matrix
-        X[i] = im_iteration_array_bw
+        X[i] = im_iteration_array
         y[i] = gender
 
         i+=1
