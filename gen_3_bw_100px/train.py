@@ -103,7 +103,7 @@ y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 
 model = keras.Sequential()
-model.add(layers.Conv2D(128, (6, 6), strides=(2, 2), activation='relu', input_shape=input_shape))
+model.add(layers.Conv2D(32, (6, 6), activation='relu', input_shape=input_shape))
 model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
@@ -118,7 +118,7 @@ model.add(layers.Dense(2, activation='softmax'))
 model.summary()
 
 batch_size = 128
-epochs = 50
+epochs = 150
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
