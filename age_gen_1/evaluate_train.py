@@ -24,17 +24,13 @@ def draw_testdata(predicted_labels):
         ax = fig.add_subplot(4,5,i)
 
         label = y_test[random]
-        if label == 0.0:
-            label_string = "Männlich"
-        else:
-            label_string = "Weiblich"
 
         image = X_test[random]
 
         #image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
         ax.imshow(image)
-        ax.set_title(label_string)
+        ax.set_title(label)
         ax.axis('off')
 
         i = i+1
@@ -49,8 +45,8 @@ image_count = len(files)
 if max_iteration < image_count:
     image_count = max_iteration
 
-height = 200
-length = 200
+height = 100
+length = 100
 depth = 1
 
 X = np.zeros((image_count+1, height, length))
@@ -66,10 +62,11 @@ for subdir, dirs, files in os.walk(rootdir):
             continue
         im_iteration = Image.open(subdir + "/" + file).convert('L') #convert to grayscale
         im_iteration_array = tf.keras.preprocessing.image.img_to_array(im_iteration)
+        im_iteration_array = tf.keras.preprocessing.image.smart_resize(im_iteration_array, (100, 100), interpolation='bilinear' ) #Resize Image
 
         # Normalize Image
         im_iteration_array = im_iteration_array.astype("float32") / 255
-        im_iteration_array = im_iteration_array.reshape(200, 200)
+        im_iteration_array = im_iteration_array.reshape(100, 100)
 
         # Label 
         filename_array = file.split("_")
@@ -81,13 +78,13 @@ for subdir, dirs, files in os.walk(rootdir):
 
         # Append to Dataset Matrix
         X[i] = im_iteration_array
-        y[i] = gender
+        y[i] = age
 
         i+=1
         if i > max_iteration:
             break
 
-X = X.reshape(image_count+1, 200, 200, 1)
+X = X.reshape(image_count+1, 100, 100, 1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True)
 

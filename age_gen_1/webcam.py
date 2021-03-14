@@ -53,18 +53,14 @@ while(True):
             face_normalized_res = face_reshaped.astype("float32") / 255
             labels_pred = model_j.predict(face_normalized_res)
 
-            prob_m = labels_pred[0][0]
-            prob_f = labels_pred[0][1]
+            pred_age_index = np.argmax(labels_pred)
+            pred_age = pred_age_index + 1
 
-            if prob_f > prob_m:
-                label_string = "Female, " + str(round(prob_f * 100, 2)) + "%"
-            else:  
-                label_string = "Male, " + str(round(prob_m * 100, 2)) + "%"
+            label_string = str(pred_age) + ", Accuracy: " + str(round(labels_pred[0][pred_age_index] * 100, 2))
+
+            print(labels_pred)
 
             image = cv2.putText(img, label_string, (sqare_startX,startY), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA) 
-
-            print("MALE: " + str(prob_m))
-            print("FEMALE: " + str(prob_f))
 
             # img = face_bw
         except cv2.error as e:
@@ -78,4 +74,3 @@ while(True):
 
 cap.release()
 cv2.destroyAllWindows()
-print("Hello World!")
