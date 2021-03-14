@@ -33,7 +33,7 @@ def draw_testdata(predicted_labels):
 
 
 rootdir = '../utkface'
-max_iteration = 10
+max_iteration = 100000
 
 path, dirs, files = next(os.walk(rootdir))
 image_count = len(files)
