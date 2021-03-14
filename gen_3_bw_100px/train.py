@@ -117,7 +117,7 @@ model.add(layers.Dense(2, activation='sigmoid'))
 
 model.summary()
 
-batch_size = 64
+batch_size = 128
 epochs = 50
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
