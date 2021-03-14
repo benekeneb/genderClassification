@@ -56,17 +56,12 @@ for subdir, dirs, files in os.walk(rootdir):
         # Load Image to NP array
         if not file.endswith('.jpg'):
             continue
-        im_iteration = Image.open(subdir + "/" + file).convert('L')
+        im_iteration = Image.open(subdir + "/" + file).convert('L') #convert to grayscale
         im_iteration_array = tf.keras.preprocessing.image.img_to_array(im_iteration)
 
         # Normalize Image
         im_iteration_array = im_iteration_array.astype("float32") / 255
         im_iteration_array = im_iteration_array.reshape(200, 200)
-
-        plt.imshow(im_iteration_array, cmap='gray', vmin=0, vmax=1)
-        plt.show()
-
-        print(im_iteration_array)
 
         print(i)
 
