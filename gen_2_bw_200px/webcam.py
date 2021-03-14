@@ -1,6 +1,7 @@
 import cv2
 import cvlib as cv
 import numpy as np
+from PIL import Image
 
 import tensorflow as tf
 from tensorflow import keras
@@ -43,7 +44,10 @@ while(True):
 
         try:
             face_cropped = cv2.resize(face_crop, dsize=(200, 200), interpolation=cv2.INTER_CUBIC)
-            face_bw = cv2.cvtColor(face_cropped, cv2.COLOR_BGR2GRAY)
+
+            PILImage = Image.fromarray(face_cropped)
+            PILgrey  = PILImage.convert('L')
+            face_bw= np.array(PILgrey)
 
             face_reshaped = face_bw.reshape(-1, 200, 200, 1)
             face_normalized_res = face_reshaped.astype("float32") / 255
