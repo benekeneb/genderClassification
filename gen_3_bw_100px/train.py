@@ -122,7 +122,7 @@ epochs = 50
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
-history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1)
+history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.2)
 
 score = model.evaluate(X_test, y_test, verbose=0)
 print("Test loss:", score[0])
