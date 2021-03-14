@@ -9,12 +9,10 @@ module purge
 module load spack_skylake_avx512
 module load python/3.8-cuda-ml
 
-# srun --mpi=pmi2 --pty --mem=40G -n1 --cpus-per-task=8 -p gpucloud --gpus=2 bash
+#srun --mpi=pmi2 --pty --mem=40G -n1 --cpus-per-task=8 -p gpucloud --gpus=2 bash
 
-srun python -c "print('THIS WORKS!!!')"
+#srun "cd /home/ga53kol/genderClassification"
+#srun ls
 
-srun ls
-
-srun source "/home/ga53kol/genderClassification/gender_classification/bin/activate"
 
 srun python3 train.py
