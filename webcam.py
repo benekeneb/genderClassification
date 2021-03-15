@@ -1,6 +1,7 @@
 import cv2
 import cvlib as cv
 import numpy as np
+from PIL import Image
 
 import tensorflow as tf
 from tensorflow import keras
@@ -8,12 +9,21 @@ from tensorflow.keras import layers
 
 cap = cv2.VideoCapture(0) #this does not work on roboDK
 
-with open('model.json', 'r') as json_file:
-    json_savedModel= json_file.read()
+#OPEN GENDER MODEL
+with open('model_gender.json', 'r') as json_file:
+    model_gender_json = json_file.read()
 
-model_j = tf.keras.models.model_from_json(json_savedModel)
-model_j.summary()
-model_j.load_weights('model.h5')
+model_gender = tf.keras.models.model_from_json(model_gender_json)
+model_gender.summary()
+model_gender.load_weights('model_gender.h5')
+
+#OPEN AGE MODEL
+with open('model_age.json', 'r') as json_file:
+    model_age_json = json_file.read()
+
+model_age = tf.keras.models.model_from_json(model_age_json)
+model_age.summary()
+model_age.load_weights('model_age.h5')
 
 while(True):
     ret, img = cap.read()
@@ -36,28 +46,37 @@ while(True):
 
         color = (255, 0, 0)
         thickness = 2
-        cv2.rectangle(img, (sqare_startX,startY), (square_endX,endY), (30,0,180), 5) 
+        cv2.rectangle(img, (sqare_startX,startY), (square_endX,endY), (0, 0, 0), 5) 
 
         face_crop = img[startY:endY, sqare_startX:square_endX, :]
 
-
         try:
-            face_cropped = cv2.resize(face_crop, dsize=(200, 200), interpolation=cv2.INTER_CUBIC)
-            face_bw = cv2.cvtColor(face_cropped, cv2.COLOR_BGR2GRAY)
+            face_cropped = cv2.resize(face_crop, dsize=(100, 100), interpolation=cv2.INTER_CUBIC)
 
-            face_reshaped = face_bw.reshape(-1, 200, 200, 1)
+            PILImage = Image.fromarray(face_cropped)
+            PILgrey  = PILImage.convert('L')
+            face_bw= np.array(PILgrey)
+
+            face_reshaped = face_bw.reshape(-1, 100, 100, 1)
             face_normalized_res = face_reshaped.astype("float32") / 255
-            labels_pred = model_j.predict(face_normalized_res)
+            gender_prob = model_gender.predict(face_normalized_res)
+            age_prob = model_age.predict(face_normalized_res)
 
-            prob_m = labels_pred[0][0]
-            prob_f = labels_pred[0][1]
+            pred_age_index = np.argmax(age_prob)
+            pred_age = pred_age_index + 1
+
+            prob_m = gender_prob[0][0]
+            prob_f = gender_prob[0][1]
 
             if prob_f > prob_m:
-                label_string = "Female, " + str(round(prob_f * 100, 2)) + "%"
+                label_string_gender = "GENDER: Female, " + str(round(prob_f * 100, 1)) + "%"
             else:  
-                label_string = "Male, " + str(round(prob_m * 100, 2)) + "%"
+                label_string_gender = "GENDER: Male, " + str(round(prob_m * 100, 1)) + "%"
 
-            image = cv2.putText(img, label_string, (sqare_startX,startY), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA) 
+            label_string_age = "AGE: " + str(pred_age) + ", " + str(round(age_prob[0][pred_age_index] * 100, 1)) + "%"
+
+            image = cv2.putText(img, label_string_gender, (sqare_startX, startY - 40), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0), 1, cv2.LINE_AA) 
+            image = cv2.putText(img, label_string_age, (sqare_startX, startY - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0), 1, cv2.LINE_AA) 
 
             print("MALE: " + str(prob_m))
             print("FEMALE: " + str(prob_f))
@@ -74,4 +93,3 @@ while(True):
 
 cap.release()
 cv2.destroyAllWindows()
-print("Hello World!")

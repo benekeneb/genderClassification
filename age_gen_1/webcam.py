@@ -2,6 +2,8 @@ import cv2
 import cvlib as cv
 import numpy as np
 from PIL import Image
+import io
+import matplotlib.pyplot as plt
 
 import tensorflow as tf
 from tensorflow import keras
@@ -62,7 +64,7 @@ while(True):
 
             image = cv2.putText(img, label_string, (sqare_startX,startY), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA) 
 
-            # img = face_bw
+            # img = plot_np
         except cv2.error as e:
             print('Invalid frame!')
 
