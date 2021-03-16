@@ -51,16 +51,15 @@ while(True):
         face_crop = img[startY:endY, sqare_startX:square_endX, :]
 
         try:
-            face_cropped = cv2.resize(face_crop, dsize=(100, 100), interpolation=cv2.INTER_CUBIC)
-
-            PILImage = Image.fromarray(face_cropped)
+            face = cv2.resize(face_crop, dsize=(100, 100), interpolation=cv2.INTER_CUBIC)
+            PILImage = Image.fromarray(face)
             PILgrey  = PILImage.convert('L')
-            face_bw= np.array(PILgrey)
+            face = np.array(PILgrey)
 
-            face_reshaped = face_bw.reshape(-1, 100, 100, 1)
-            face_normalized_res = face_reshaped.astype("float32") / 255
-            gender_prob = model_gender.predict(face_normalized_res)
-            age_prob = model_age.predict(face_normalized_res)
+            face = face.reshape(-1, 100, 100, 1)
+            face = face.astype("float32") / 255
+            gender_prob = model_gender.predict(face)
+            age_prob = model_age.predict(face)
 
             pred_age_index = np.argmax(age_prob)
             pred_age = pred_age_index + 1
@@ -81,7 +80,7 @@ while(True):
             print("MALE: " + str(prob_m))
             print("FEMALE: " + str(prob_f))
 
-            # img = face_bw
+            # img = face
         except cv2.error as e:
             print('Invalid frame!')
 
