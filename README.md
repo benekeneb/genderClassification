@@ -1,5 +1,7 @@
 # Gender Classification
-CNN classifier to predict age and gender of a face. 
+CNN classifier to predict age and gender of a face.
+
+![Alt-Text](evaluate_train_plot.png)
 
 ## Dependencies:
 
@@ -19,8 +21,6 @@ CNN classifier to predict age and gender of a face.
 ## Project description
 
  - **`webcam.py`**: Script which uses your webcam to classify visible faces. Start the `webcam.py` in the main directory to predict both age and gender. There are also `webcam.py` scripts in the `age_classification` and the `gender_classification` directories to just predict one thing.
- - **`evaluate_train.py`**: Script to plot some example images from the dataset with the associated predicted labels by my models. Can also be found in  the `age_classification` and the `gender_classification` directories.
+ - **`evaluate_train.py`**: Script to plot some example images from the dataset with the associated predicted labels by my models. Can also be found in  the `age_classification` and the `gender_classification` directories. Example is `evaluate_train_plot.png`
  - **`plot_histograms.py`**: Script to plot histograms of the used dataset.
  - To train the two models there are `train.py` scripts in both the  `age_classification` and the `gender_classification` directories.
-
-## Results
