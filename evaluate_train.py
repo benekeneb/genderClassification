@@ -13,7 +13,7 @@ import cv2
 import cvlib as cv
 
 def draw_testdata():
-    random_array = rd.sample(range(1, X_test.shape[0]), 20)
+    random_array = rd.sample(range(1, X_test.shape[0]), 12)
     print(random_array)
 
     fig = plt.figure()
@@ -21,27 +21,32 @@ def draw_testdata():
 
     i = 1
     for random in random_array:
-        ax = fig.add_subplot(4,5,i)
+        ax = fig.add_subplot(3,4,i)
 
         age_prob = age_prob_matrix[random]
         pred_age_index = np.argmax(age_prob)
         pred_age = pred_age_index + 1
-        label_age = "PRED. AGE: " + str(pred_age) + ", Real Age: " + str(y_test[random])
+        label_age = "PRED. AGE: " + str(pred_age) + ", Label: " + str(y_test[random][1])
 
         gender_prob = gender_prob_matrix[random]
         prob_m = gender_prob[0]
         prob_f = gender_prob[1]
+        if y_test[random][0] == 1:
+            gender_label = "Female"
+        else:   
+            gender_label = "Male"
+
         if prob_f > prob_m:
-            label_gender = "PRED. GENDER: Female"
+            label_gender = "PRED. GENDER: Female, Label: " + gender_label
         else:  
-            label_gender = "PRED. GENDER: Male"
+            label_gender = "PRED. GENDER: Male, Label: " + gender_label
 
         image = X_test[random]
 
         #image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-        ax.imshow(image)
-        ax.set_title(label_age + "\n" + label_gender)
+        ax.imshow(image, cmap='gray', vmin=0, vmax=1)
+        ax.set_title(label_age + "\n" + label_gender, fontsize=12)
         ax.axis('off')
 
         i = i+1
@@ -61,7 +66,7 @@ length = 100
 depth = 1
 
 X = np.zeros((image_count+1, height, length))
-y = np.zeros((image_count+1))
+y = np.zeros((image_count+1, 2))
 
 i = 0
 for subdir, dirs, files in os.walk(rootdir):
@@ -89,7 +94,8 @@ for subdir, dirs, files in os.walk(rootdir):
 
         # Append to Dataset Matrix
         X[i] = im_iteration_array
-        y[i] = age
+        y[i][0] = gender
+        y[i][1] = age
 
         i+=1
         if i > max_iteration:

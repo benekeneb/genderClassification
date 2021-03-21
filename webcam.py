@@ -46,7 +46,7 @@ while(True):
 
         color = (255, 0, 0)
         thickness = 2
-        cv2.rectangle(img, (sqare_startX,startY), (square_endX,endY), (0, 0, 0), 5) 
+        cv2.rectangle(img, (sqare_startX,startY), (square_endX,endY), (163, 202, 44), 5) 
 
         face_crop = img[startY:endY, sqare_startX:square_endX, :]
 
@@ -74,8 +74,8 @@ while(True):
 
             label_string_age = "AGE: " + str(pred_age) + ", " + str(round(age_prob[0][pred_age_index] * 100, 1)) + "%"
 
-            image = cv2.putText(img, label_string_gender, (sqare_startX, startY - 40), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0), 1, cv2.LINE_AA) 
-            image = cv2.putText(img, label_string_age, (sqare_startX, startY - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0), 1, cv2.LINE_AA) 
+            image = cv2.putText(img, label_string_gender, (sqare_startX, startY - 40), cv2.FONT_HERSHEY_DUPLEX, 1, (163, 202, 44), 1, cv2.LINE_AA) 
+            image = cv2.putText(img, label_string_age, (sqare_startX, startY - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (163, 202, 44), 1, cv2.LINE_AA) 
 
             print("MALE: " + str(prob_m))
             print("FEMALE: " + str(prob_f))
