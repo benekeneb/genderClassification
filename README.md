@@ -11,6 +11,7 @@ CNN classifier to predict age and gender of a face.
  - Random
  - Tensorflow
  - Keras
+ - CV2
 
 ## Installation:
 
